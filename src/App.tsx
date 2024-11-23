@@ -7,10 +7,9 @@ import Contact from "./components/Contact";
 import { GoogleTagManager } from './components/GoogleTagManager';
 
 const App: React.FC = () => {
-  console.log('GTM ID:', import.meta.env.VITE_GTM_ID);
   return (
     <>
-      <GoogleTagManager id={import.meta.env.VITE_GTM_ID} />
+      <GoogleTagManager />
       <div className="min-h-screen">
         <Navbar />
         <Hero />
