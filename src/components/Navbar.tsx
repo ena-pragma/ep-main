@@ -11,15 +11,15 @@ export default function Navbar() {
     { label: "About", path: "/#about" },
     { label: "Services", path: "/#services" },
     { label: "Case Studies", path: "/#case-studies" },
-    { label: "Blog", path: "/blog" },
+    // { label: "Blog", path: "/blog" },
     { label: "Contact", path: "/#contact" },
   ];
 
   const handleClick = (path: string) => {
     setIsOpen(false);
-    if (path.startsWith('/#') && location.pathname === '/') {
+    if (path.startsWith("/#") && location.pathname === "/") {
       const element = document.querySelector(path.substring(1));
-      element?.scrollIntoView({ behavior: 'smooth' });
+      element?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
