@@ -6,13 +6,11 @@ declare global {
   }
 }
 
-interface GoogleTagManagerProps {
-  id: string;
-}
+const GTM_ID = 'GTM-PW8JCLF9';
 
-export const GoogleTagManager: React.FC<GoogleTagManagerProps> = ({ id }) => {
+export const GoogleTagManager: React.FC = () => {
   React.useEffect(() => {
-    console.log('Initializing GTM with ID:', id);
+    console.log('Initializing GTM with ID:', GTM_ID);
     if (!window.dataLayer) {
       window.dataLayer = [];
       const script = document.createElement('script');
@@ -21,16 +19,16 @@ export const GoogleTagManager: React.FC<GoogleTagManagerProps> = ({ id }) => {
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','${id}');
+        })(window,document,'script','dataLayer','${GTM_ID}');
       `;
       document.head.appendChild(script);
     }
-  }, [id]);
+  }, []);
 
   return (
     <noscript>
       <iframe
-        src={`https://www.googletagmanager.com/ns.html?id=${id}`}
+        src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
         height="0"
         width="0"
         style={{ display: 'none', visibility: 'hidden' }}
