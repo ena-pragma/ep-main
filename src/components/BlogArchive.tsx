@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
-import { client, urlFor } from '../lib/sanity';
+import { client } from '../lib/sanity';
 import { allPostsQuery } from '../lib/queries';
 
 interface Post {
@@ -13,16 +13,25 @@ interface Post {
     asset: {
       _ref: string;
       _type: 'reference';
+      url: string;  // Added url field
     };
   };
   publishedAt: string;
   excerpt: string;
   author: {
     name: string;
-    image: any;
+    authorImage: {  // Changed from 'image' to 'authorImage'
+      asset: {
+        _ref: string;
+        _type: 'reference';
+        url: string;  // Added url field
+      };
+    };
   };
   categories: { title: string }[];
 }
+
+const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80';
 
 export default function BlogArchive() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -37,7 +46,7 @@ export default function BlogArchive() {
     const fetchPosts = async () => {
       try {
         const result = await client.fetch(allPostsQuery);
-        console.log('Fetched posts:', result); // Debug log
+        console.log('Fetched posts:', result);  // Added for debugging
         setPosts(result);
         setError(null);
       } catch (err) {
@@ -52,13 +61,24 @@ export default function BlogArchive() {
   }, []);
 
   const getImageUrl = (image: any) => {
-    if (!image?.asset?._ref) return null;
-    return urlFor(image)
-      .width(600)
-      .height(400)
-      .fit('crop')
-      .quality(80)
-      .url();
+    // First try to use the direct URL if available
+    if (image?.asset?.url) {
+      return image.asset.url;
+    }
+    
+    // Fallback to constructing URL from _ref if available
+    if (!image?.asset?._ref) {
+      console.warn('No image asset reference or URL found:', image);
+      return DEFAULT_IMAGE;
+    }
+
+    const imageUrl = `https://cdn.sanity.io/images/${import.meta.env.VITE_SANITY_PROJECT_ID}/${import.meta.env.VITE_SANITY_DATASET}/${image.asset._ref
+      .replace('image-', '')
+      .replace('-jpg', '.jpg')
+      .replace('-png', '.png')
+      .replace('-webp', '.webp')}`;
+
+    return imageUrl || DEFAULT_IMAGE;
   };
 
   if (loading) {
@@ -114,6 +134,9 @@ export default function BlogArchive() {
                     src={getImageUrl(post.mainImage)}
                     alt={post.title}
                     className="absolute inset-0 w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = DEFAULT_IMAGE;
+                    }}
                   />
                 </div>
               )}
@@ -139,11 +162,14 @@ export default function BlogArchive() {
                 <p className="text-gray-600 mb-4">{post.excerpt}</p>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    {post.author?.image && (
+                    {post.author?.authorImage && (  // Changed from image to authorImage
                       <img
-                        src={getImageUrl(post.author.image)}
+                        src={getImageUrl(post.author.authorImage)}  // Changed from image to authorImage
                         alt={post.author.name}
                         className="w-10 h-10 rounded-full mr-3"
+                        onError={(e) => {
+                          e.currentTarget.src = DEFAULT_IMAGE;
+                        }}
                       />
                     )}
                     <span className="text-sm text-gray-600">{post.author?.name}</span>

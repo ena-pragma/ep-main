@@ -6,6 +6,8 @@ export const allPostsQuery = `*[_type == "post"] {
   mainImage {
     asset-> {
       _id,
+      _ref,
+      _type,
       url
     }
   },
@@ -13,7 +15,14 @@ export const allPostsQuery = `*[_type == "post"] {
   excerpt,
   author-> {
     name,
-    image
+    authorImage {  // Changed from 'image' to 'authorImage' to match schema
+      asset-> {
+        _id,
+        _ref,
+        _type,
+        url
+      }
+    }
   },
   categories[]-> {
     title
@@ -27,6 +36,8 @@ export const singlePostQuery = `*[_type == "post" && slug.current == $slug][0] {
   mainImage {
     asset-> {
       _id,
+      _ref,
+      _type,
       url
     }
   },
@@ -34,7 +45,14 @@ export const singlePostQuery = `*[_type == "post" && slug.current == $slug][0] {
   publishedAt,
   author-> {
     name,
-    image,
+    authorImage {
+      asset-> {
+        _id,
+        _ref,
+        _type,
+        url
+      }
+    },
     bio
   },
   categories[]-> {
