@@ -1,11 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const [pendingScroll, setPendingScroll] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (pendingScroll && location.pathname === '/') {
+      const element = document.querySelector(pendingScroll);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        setPendingScroll(null);
+      }
+    }
+  }, [location.pathname, pendingScroll]);
 
   const menuItems = [
     { label: "About", path: "/#about" },
@@ -17,9 +29,20 @@ export default function Navbar() {
 
   const handleClick = (path: string) => {
     setIsOpen(false);
-    if (path.startsWith("/#") && location.pathname === "/") {
-      const element = document.querySelector(path.substring(1));
-      element?.scrollIntoView({ behavior: "smooth" });
+
+    if (path === "/blog") {
+      navigate(path);
+      return;
+    }
+
+    if (path.startsWith("/#")) {
+      if (location.pathname !== "/") {
+        setPendingScroll(path.substring(1));
+        navigate('/');
+      } else {
+        const element = document.querySelector(path.substring(1));
+        element?.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
@@ -28,8 +51,12 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           <div className="flex-shrink-0">
-            <Link to="/" className="text-2xl font-bold tracking-tighter">
-              ENA PRAGMA
+            <Link to="/" className="flex items-center">
+              <img 
+                src="https://storage.googleapis.com/msgsndr/nQTW9979qfP1LADOwzLC/media/66abeef18f484e5507641ff9.png" 
+                alt="Ena Pragma" 
+                className="h-12 w-auto"
+              />
             </Link>
           </div>
 
@@ -38,7 +65,10 @@ export default function Navbar() {
               <Link
                 key={item.label}
                 to={item.path}
-                onClick={() => handleClick(item.path)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClick(item.path);
+                }}
                 className="text-gray-800 hover:text-gray-600 transition-colors px-3 py-2 text-sm font-medium"
               >
                 {item.label}
@@ -65,7 +95,10 @@ export default function Navbar() {
                 <Link
                   key={item.label}
                   to={item.path}
-                  onClick={() => handleClick(item.path)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleClick(item.path);
+                  }}
                   className="block px-3 py-2 text-base font-medium text-gray-800 hover:text-gray-600 hover:bg-gray-50"
                 >
                   {item.label}
