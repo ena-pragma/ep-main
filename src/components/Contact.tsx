@@ -8,9 +8,9 @@ import {
   Facebook,
   Linkedin,
 } from "lucide-react";
-import emailjs from "@emailjs/browser";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { addContactForm } from "../lib/ghl";
 
 export default function Contact() {
   const [ref, inView] = useInView({
@@ -53,19 +53,14 @@ export default function Contact() {
     setIsSubmitting(true);
 
     try {
-      await emailjs.send(
-        "service_k16449m",
-        "template_96s3t1s",
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-          phone_number: formData.phone,
-          to_name: "Ena Pragma",
-          to_email: "lead@enapragma.co",
-        },
-        "MmsYK_LUSPvb-GS-u",
-      );
+      await addContactForm({
+        firstName: formData.name.split(" ")[0],
+        lastName: formData.name.split(" ").slice(1).join(" "),
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        source: "Website Contact Form",
+      });
 
       toast.success("Message sent successfully!");
       setFormData({ name: "", email: "", message: "", phone: "" });
@@ -105,13 +100,13 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label
                   htmlFor="name"
@@ -125,7 +120,7 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-white/10 rounded-lg focus:ring-2 focus:ring-white/50 text-white"
+                  className="w-full px-4 py-2 bg-white/10 rounded-lg focus:ring-2 focus:ring-white/50 text-white"
                   placeholder="Your name"
                 />
               </div>
@@ -142,7 +137,7 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-white/10 rounded-lg focus:ring-2 focus:ring-white/50 text-white"
+                  className="w-full px-4 py-2 bg-white/10 rounded-lg focus:ring-2 focus:ring-white/50 text-white"
                   placeholder="your@email.com"
                 />
               </div>
@@ -159,7 +154,7 @@ export default function Contact() {
                   value={formData.phone}
                   onChange={handlePhoneChange}
                   required
-                  className="w-full px-4 py-3 bg-white/10 rounded-lg focus:ring-2 focus:ring-white/50 text-white"
+                  className="w-full px-4 py-2 bg-white/10 rounded-lg focus:ring-2 focus:ring-white/50 text-white"
                   placeholder="(555) 555-5555"
                 />
               </div>
@@ -175,15 +170,15 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  rows={4}
-                  className="w-full px-4 py-3 bg-white/10 rounded-lg focus:ring-2 focus:ring-white/50 text-white"
+                  rows={3}
+                  className="w-full px-4 py-2 bg-white/10 rounded-lg focus:ring-2 focus:ring-white/50 text-white"
                   placeholder="How can we help?"
                 />
               </div>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-white text-black py-3 px-6 rounded-lg font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-white text-black py-2 px-6 rounded-lg font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? "Sending..." : "Send Message"}
               </button>
@@ -221,7 +216,8 @@ export default function Contact() {
                 </p>
               </div>
             </div>
-            <div className="pt-6 border-t border-white/10">
+
+            <div className="pt-8 border-t border-white/10">
               <h3 className="text-lg font-medium mb-4">Connect With Us</h3>
               <div className="flex space-x-6">
                 <a

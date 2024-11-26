@@ -13,30 +13,21 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion: "2024-02-25",
-  useCdn: false, // Disable CDN to ensure fresh data
+  useCdn: false,
   token,
   perspective: "published",
 });
-
-// Add a console log here to debug the token
-console.log(
-  "Sanity Token during initialization . meta:",
-  import.meta.env.VITE_SANITY_TOKEN,
-);
-
 
 const builder = imageUrlBuilder(client);
 
 export function urlFor(source: any) {
   if (!source?.asset?._ref) {
-    console.warn("Invalid image source:", source);
     return null;
   }
 
   try {
     return builder.image(source).auto("format").quality(80).fit("max").url();
   } catch (error) {
-    console.error("Error building image URL:", error);
     return null;
   }
 }
