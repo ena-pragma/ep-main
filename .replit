@@ -17,7 +17,6 @@ deploymentTarget = "vm"
 run = "serve -s dist"
 build = ["npm", "run", "build"]
 
-
 [[ports]]
 localPort = 5173
 externalPort = 5173

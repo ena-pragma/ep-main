@@ -1,39 +1,42 @@
-import { createClient } from '@sanity/client';
-import imageUrlBuilder from '@sanity/image-url';
+import { createClient } from "@sanity/client";
+import imageUrlBuilder from "@sanity/image-url";
 
 const projectId = import.meta.env.VITE_SANITY_PROJECT_ID;
-const dataset = import.meta.env.VITE_SANITY_DATASET || 'production';
+const dataset = import.meta.env.VITE_SANITY_DATASET || "production";
 const token = import.meta.env.VITE_SANITY_TOKEN;
 
 if (!projectId) {
-  console.error('Missing VITE_SANITY_PROJECT_ID');
+  console.error("Missing VITE_SANITY_PROJECT_ID");
 }
 
 export const client = createClient({
   projectId,
   dataset,
-  apiVersion: '2024-02-25',
+  apiVersion: "2024-02-25",
   useCdn: false, // Disable CDN to ensure fresh data
   token,
-  perspective: 'published'
+  perspective: "published",
 });
+
+// Add a console log here to debug the token
+console.log(
+  "Sanity Token during initialization . meta:",
+  import.meta.env.VITE_SANITY_TOKEN,
+);
+
 
 const builder = imageUrlBuilder(client);
 
 export function urlFor(source: any) {
   if (!source?.asset?._ref) {
-    console.warn('Invalid image source:', source);
+    console.warn("Invalid image source:", source);
     return null;
   }
-  
+
   try {
-    return builder.image(source)
-      .auto('format')
-      .quality(80)
-      .fit('max')
-      .url();
+    return builder.image(source).auto("format").quality(80).fit("max").url();
   } catch (error) {
-    console.error('Error building image URL:', error);
+    console.error("Error building image URL:", error);
     return null;
   }
 }
