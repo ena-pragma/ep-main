@@ -12,14 +12,12 @@ entrypoint = "src/App.tsx"
 [nix]
 channel = "stable-24_05"
 
-[unitTest]
-language = "nodejs"
-
 [deployment]
-deploymentTarget = "static"
+deploymentTarget = "vm"
+run = "serve -s dist"
 build = ["npm", "run", "build"]
-publicDir = "dist"
+
 
 [[ports]]
 localPort = 5173
-externalPort = 80
+externalPort = 5173

@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Link } from 'react-router-dom';
-import { client } from '../lib/sanity';
-import { allPostsQuery } from '../lib/queries';
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
+import { client } from "../lib/sanity";
+import { allPostsQuery } from "../lib/queries";
 
 interface Post {
   _id: string;
@@ -12,26 +12,28 @@ interface Post {
   mainImage: {
     asset: {
       _ref: string;
-      _type: 'reference';
-      url: string;  // Added url field
+      _type: "reference";
+      url: string; // Added url field
     };
   };
   publishedAt: string;
   excerpt: string;
   author: {
     name: string;
-    authorImage: {  // Changed from 'image' to 'authorImage'
+    authorImage: {
+      // Changed from 'image' to 'authorImage'
       asset: {
         _ref: string;
-        _type: 'reference';
-        url: string;  // Added url field
+        _type: "reference";
+        url: string; // Added url field
       };
     };
   };
   categories: { title: string }[];
 }
 
-const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80';
+const DEFAULT_IMAGE =
+  "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80";
 
 export default function BlogArchive() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -46,12 +48,12 @@ export default function BlogArchive() {
     const fetchPosts = async () => {
       try {
         const result = await client.fetch(allPostsQuery);
-        console.log('Fetched posts:', result);  // Added for debugging
+        console.log("Fetched posts:", result); // Added for debugging
         setPosts(result);
         setError(null);
       } catch (err) {
-        console.error('Error fetching posts:', err);
-        setError('Failed to load posts. Please try again later.');
+        console.error("Error fetching posts:", err);
+        setError("Failed to load posts. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -65,18 +67,18 @@ export default function BlogArchive() {
     if (image?.asset?.url) {
       return image.asset.url;
     }
-    
+
     // Fallback to constructing URL from _ref if available
     if (!image?.asset?._ref) {
-      console.warn('No image asset reference or URL found:', image);
+      console.warn("No image asset reference or URL found:", image);
       return DEFAULT_IMAGE;
     }
 
     const imageUrl = `https://cdn.sanity.io/images/${import.meta.env.VITE_SANITY_PROJECT_ID}/${import.meta.env.VITE_SANITY_DATASET}/${image.asset._ref
-      .replace('image-', '')
-      .replace('-jpg', '.jpg')
-      .replace('-png', '.png')
-      .replace('-webp', '.webp')}`;
+      .replace("image-", "")
+      .replace("-jpg", ".jpg")
+      .replace("-png", ".png")
+      .replace("-webp", ".webp")}`;
 
     return imageUrl || DEFAULT_IMAGE;
   };
@@ -162,9 +164,9 @@ export default function BlogArchive() {
                 <p className="text-gray-600 mb-4">{post.excerpt}</p>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    {post.author?.authorImage && (  // Changed from image to authorImage
+                    {post.author?.authorImage && ( // Changed from image to authorImage
                       <img
-                        src={getImageUrl(post.author.authorImage)}  // Changed from image to authorImage
+                        src={getImageUrl(post.author.authorImage)} // Changed from image to authorImage
                         alt={post.author.name}
                         className="w-10 h-10 rounded-full mr-3"
                         onError={(e) => {
@@ -172,13 +174,15 @@ export default function BlogArchive() {
                         }}
                       />
                     )}
-                    <span className="text-sm text-gray-600">{post.author?.name}</span>
+                    <span className="text-sm text-gray-600">
+                      {post.author?.name}
+                    </span>
                   </div>
                   <time className="text-sm text-gray-500">
-                    {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
+                    {new Date(post.publishedAt).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
                     })}
                   </time>
                 </div>
