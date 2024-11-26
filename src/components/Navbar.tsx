@@ -10,7 +10,7 @@ export default function Navbar() {
   const [pendingScroll, setPendingScroll] = useState<string | null>(null);
 
   useEffect(() => {
-    if (pendingScroll && location.pathname === '/') {
+    if (pendingScroll && location.pathname === "/") {
       const element = document.querySelector(pendingScroll);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
@@ -31,6 +31,7 @@ export default function Navbar() {
     setIsOpen(false);
 
     if (path === "/blog") {
+      window.scrollTo(0, 0);
       navigate(path);
       return;
     }
@@ -38,7 +39,7 @@ export default function Navbar() {
     if (path.startsWith("/#")) {
       if (location.pathname !== "/") {
         setPendingScroll(path.substring(1));
-        navigate('/');
+        navigate("/");
       } else {
         const element = document.querySelector(path.substring(1));
         element?.scrollIntoView({ behavior: "smooth" });
@@ -52,9 +53,9 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-20">
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center">
-              <img 
-                src="https://storage.googleapis.com/msgsndr/nQTW9979qfP1LADOwzLC/media/66abeef18f484e5507641ff9.png" 
-                alt="Ena Pragma" 
+              <img
+                src="https://storage.googleapis.com/msgsndr/nQTW9979qfP1LADOwzLC/media/66abeef18f484e5507641ff9.png"
+                alt="Ena Pragma"
                 className="h-12 w-auto"
               />
             </Link>

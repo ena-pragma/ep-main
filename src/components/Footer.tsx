@@ -8,7 +8,6 @@ export default function Footer() {
   const navigate = useNavigate();
   const [pendingScroll, setPendingScroll] = useState<string | null>(null);
 
-  // Handle pending scroll after navigation
   useEffect(() => {
     if (pendingScroll && location.pathname === "/") {
       const element = document.querySelector(pendingScroll);
@@ -21,13 +20,13 @@ export default function Footer() {
 
   const handleClick = (path: string) => {
     if (path === "/blog") {
+      window.scrollTo(0, 0);
       navigate(path);
       return;
     }
 
     if (path.startsWith("/#")) {
       if (location.pathname !== "/") {
-        // Store the section to scroll to after navigation
         setPendingScroll(path.substring(1));
         navigate("/");
       } else {
