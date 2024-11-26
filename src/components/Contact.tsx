@@ -1,9 +1,16 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Mail, Phone, MapPin } from 'lucide-react';
-import emailjs from '@emailjs/browser';
-import { useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Instagram,
+  Facebook,
+  Linkedin,
+} from "lucide-react";
+import emailjs from "@emailjs/browser";
+import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Contact() {
   const [ref, inView] = useInView({
@@ -13,33 +20,33 @@ export default function Contact() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-    phone: '',
+    name: "",
+    email: "",
+    message: "",
+    phone: "",
   });
 
   const formatPhoneNumber = (value: string) => {
-    const phoneNumber = value.replace(/\D/g, '');
+    const phoneNumber = value.replace(/\D/g, "");
     if (phoneNumber.length < 4) return phoneNumber;
-    if (phoneNumber.length < 7) return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+    if (phoneNumber.length < 7)
+      return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
     return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formattedPhone = formatPhoneNumber(e.target.value);
-    if (formattedPhone.replace(/\D/g, '').length <= 10) {
-      setFormData(prev => ({ ...prev, phone: formattedPhone }));
+    if (formattedPhone.replace(/\D/g, "").length <= 10) {
+      setFormData((prev) => ({ ...prev, phone: formattedPhone }));
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validate phone number
-    const phoneDigits = formData.phone.replace(/\D/g, '');
+
+    const phoneDigits = formData.phone.replace(/\D/g, "");
     if (phoneDigits.length !== 10) {
-      toast.error('Please enter a valid US phone number');
+      toast.error("Please enter a valid US phone number");
       return;
     }
 
@@ -47,33 +54,35 @@ export default function Contact() {
 
     try {
       await emailjs.send(
-        'service_k16449m',
-        'template_96s3t1s',
+        "service_k16449m",
+        "template_96s3t1s",
         {
           from_name: formData.name,
           from_email: formData.email,
           message: formData.message,
           phone_number: formData.phone,
-          to_name: 'Ena Pragma',
-          to_email: 'lead@enapragma.co',
+          to_name: "Ena Pragma",
+          to_email: "lead@enapragma.co",
         },
-        'MmsYK_LUSPvb-GS-u'
+        "MmsYK_LUSPvb-GS-u",
       );
 
-      toast.success('Message sent successfully!');
-      setFormData({ name: '', email: '', message: '', phone: '' });
+      toast.success("Message sent successfully!");
+      setFormData({ name: "", email: "", message: "", phone: "" });
     } catch (error) {
-      toast.error('Failed to send message. Please try again.');
+      toast.error("Failed to send message. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if (e.target.id === 'phone') return; // Phone has its own handler
-    setFormData(prev => ({
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    if (e.target.id === "phone") return;
+    setFormData((prev) => ({
       ...prev,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     }));
   };
 
@@ -104,7 +113,12 @@ export default function Contact() {
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">Name</label>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium mb-2"
+                >
+                  Name
+                </label>
                 <input
                   type="text"
                   id="name"
@@ -116,7 +130,12 @@ export default function Contact() {
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">Email</label>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium mb-2"
+                >
+                  Email
+                </label>
                 <input
                   type="email"
                   id="email"
@@ -128,7 +147,12 @@ export default function Contact() {
                 />
               </div>
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium mb-2">Phone</label>
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-medium mb-2"
+                >
+                  Phone
+                </label>
                 <input
                   type="tel"
                   id="phone"
@@ -140,7 +164,12 @@ export default function Contact() {
                 />
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2">Message</label>
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium mb-2"
+                >
+                  Message
+                </label>
                 <textarea
                   id="message"
                   value={formData.message}
@@ -156,7 +185,7 @@ export default function Contact() {
                 disabled={isSubmitting}
                 className="w-full bg-white text-black py-3 px-6 rounded-lg font-medium hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
+                {isSubmitting ? "Sending..." : "Send Message"}
               </button>
             </form>
           </motion.div>
@@ -186,9 +215,42 @@ export default function Contact() {
               <div>
                 <h3 className="text-lg font-medium mb-1">Location</h3>
                 <p className="text-gray-300">
-                  10268 Oak Lane<br />
+                  10268 Oak Lane
+                  <br />
                   Grand Bay, AL 36541
                 </p>
+              </div>
+            </div>
+            <div className="pt-6 border-t border-white/10">
+              <h3 className="text-lg font-medium mb-4">Connect With Us</h3>
+              <div className="flex space-x-6">
+                <a
+                  href="https://www.instagram.com/enapragma"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-gray-300 transition-colors"
+                  aria-label="Follow us on Instagram"
+                >
+                  <Instagram className="w-6 h-6" />
+                </a>
+                <a
+                  href="https://www.facebook.com/enapragma"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-gray-300 transition-colors"
+                  aria-label="Follow us on Facebook"
+                >
+                  <Facebook className="w-6 h-6" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/enapragma/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-gray-300 transition-colors"
+                  aria-label="Follow us on LinkedIn"
+                >
+                  <Linkedin className="w-6 h-6" />
+                </a>
               </div>
             </div>
           </motion.div>
