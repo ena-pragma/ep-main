@@ -1,0 +1,185 @@
+import { 
+  Code, 
+  LineChart, 
+  Search, 
+  Megaphone, 
+  BarChart, 
+  Target, 
+  Palette, 
+  Share2, 
+  Layout, 
+  MousePointer, 
+  ClipboardList, 
+  PenTool,
+  Briefcase,
+  MessageSquare,
+  Camera,
+  Zap
+} from 'lucide-react';
+
+export const positions = [
+  {
+    title: 'Web Developer',
+    icon: Code,
+    description: 'Build cutting-edge web applications with modern technologies.',
+    requirements: [
+      'Experience with React and TypeScript',
+      'Understanding of modern web development practices',
+      'Knowledge of UI/UX principles',
+    ],
+  },
+  {
+    title: 'Paid Ads Specialist',
+    icon: Target,
+    description: 'Optimize and manage high-performing paid advertising campaigns.',
+    requirements: [
+      'Experience with Google Ads and Meta Ads platforms',
+      'Strong A/B testing and optimization skills',
+      'Data-driven decision making abilities',
+      'Experience with conversion tracking and analytics',
+    ],
+  },
+  {
+    title: 'UI/UX Designer',
+    icon: Layout,
+    description: 'Create intuitive and engaging user experiences for digital products.',
+    requirements: [
+      'Strong portfolio of UI/UX design work',
+      'Proficiency in Figma or similar design tools',
+      'Understanding of user-centered design principles',
+      'Experience with design systems',
+    ],
+  },
+  {
+    title: 'Graphic Designer',
+    icon: PenTool,
+    description: 'Create stunning visuals for digital and print media.',
+    requirements: [
+      'Strong portfolio demonstrating versatile design skills',
+      'Proficiency in Adobe Creative Suite',
+      'Understanding of brand identity and guidelines',
+      'Experience with social media design',
+    ],
+  },
+  {
+    title: 'Social Media Manager',
+    icon: Share2,
+    description: 'Develop and execute engaging social media strategies.',
+    requirements: [
+      'Experience managing multiple social media platforms',
+      'Content creation and scheduling expertise',
+      'Understanding of social media analytics',
+      'Community management skills',
+    ],
+  },
+  {
+    title: 'Marketing Specialist',
+    icon: Megaphone,
+    description: 'Drive digital marketing strategies and campaigns.',
+    requirements: [
+      'Experience in digital marketing',
+      'Knowledge of marketing automation tools',
+      'Strong analytical skills',
+      'Content strategy experience',
+    ],
+  },
+  {
+    title: 'Data Researcher',
+    icon: Search,
+    description: 'Analyze market trends and consumer behavior patterns.',
+    requirements: [
+      'Experience in data analysis',
+      'Knowledge of research methodologies',
+      'Strong attention to detail',
+      'Proficiency in data visualization',
+    ],
+  },
+  {
+    title: 'Lead Generation Specialist',
+    icon: LineChart,
+    description: 'Identify and cultivate potential business opportunities.',
+    requirements: [
+      'Experience in B2B lead generation',
+      'Understanding of sales processes',
+      'Strong communication skills',
+      'CRM experience',
+    ],
+  },
+  {
+    title: 'SEO Expert',
+    icon: BarChart,
+    description: 'Optimize digital content and improve search rankings.',
+    requirements: [
+      'Experience in SEO optimization',
+      'Knowledge of SEO tools and analytics',
+      'Content strategy skills',
+      'Technical SEO expertise',
+    ],
+  },
+  {
+    title: 'Administrative Assistant',
+    icon: ClipboardList,
+    description: 'Provide crucial administrative support to our growing team.',
+    requirements: [
+      'Strong organizational skills',
+      'Proficiency in office software',
+      'Experience with project management tools',
+      'Excellent communication abilities',
+    ],
+  },
+  {
+    title: 'Content Strategist',
+    icon: Briefcase,
+    description: 'Develop and execute comprehensive content strategies.',
+    requirements: [
+      'Experience in content strategy and planning',
+      'SEO knowledge',
+      'Editorial skills',
+      'Content performance analysis',
+    ],
+  },
+  {
+    title: 'Community Manager',
+    icon: MessageSquare,
+    description: 'Build and nurture online communities across platforms.',
+    requirements: [
+      'Community management experience',
+      'Crisis management skills',
+      'Content moderation expertise',
+      'Strong interpersonal skills',
+    ],
+  },
+  {
+    title: 'Video Content Creator',
+    icon: Camera,
+    description: 'Create engaging video content for multiple platforms.',
+    requirements: [
+      'Video production and editing skills',
+      'Experience with Adobe Premiere Pro/Final Cut',
+      'Understanding of social media video formats',
+      'Storytelling abilities',
+    ],
+  },
+  {
+    title: 'Conversion Rate Optimizer',
+    icon: MousePointer,
+    description: 'Optimize digital assets for maximum conversion.',
+    requirements: [
+      'Experience with A/B testing',
+      'Analytics tools proficiency',
+      'Understanding of user behavior',
+      'Data analysis skills',
+    ],
+  },
+  {
+    title: 'Marketing Automation Specialist',
+    icon: Zap,
+    description: 'Implement and optimize marketing automation strategies.',
+    requirements: [
+      'Experience with marketing automation platforms',
+      'Email marketing expertise',
+      'Understanding of customer journey mapping',
+      'Integration and workflow automation skills',
+    ],
+  },
+];

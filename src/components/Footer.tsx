@@ -19,7 +19,7 @@ export default function Footer() {
   }, [location.pathname, pendingScroll]);
 
   const handleClick = (path: string) => {
-    if (path === "/blog") {
+    if (path === "/blog" || path === "/apply") {
       window.scrollTo(0, 0);
       navigate(path);
       return;
@@ -118,6 +118,14 @@ export default function Footer() {
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   Blog
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleClick("/apply")}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Careers
                 </button>
               </li>
             </ul>

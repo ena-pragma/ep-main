@@ -15,6 +15,7 @@ import WebDesignPage from "./components/pages/WebDesign/WebDesignPage";
 import QuestionnairePage from "./components/pages/WebDesign/Questionnaire/QuestionnairePage";
 import BookingPage from "./components/pages/WebDesign/Booking/BookingPage";
 import ThankYouPage from "./components/pages/WebDesign/ThankYou/ThankYouPage";
+import RecruitmentPage from "./components/pages/Recruitment/RecruitmentPage";
 
 const HomePage = () => (
   <>
@@ -30,10 +31,11 @@ const AppContent = () => {
   const location = useLocation();
   const isWebDesignPage = location.pathname.startsWith('/web-design');
   const isThankYouPage = location.pathname === '/thank-you';
+  const isRecruitmentPage = location.pathname === '/apply';
 
   return (
     <div className="min-h-screen flex flex-col">
-      {!isWebDesignPage && !isThankYouPage && <Navbar />}
+      {!isWebDesignPage && !isThankYouPage && !isRecruitmentPage && <Navbar />}
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -43,16 +45,17 @@ const AppContent = () => {
           <Route path="/web-design/questionnaire" element={<QuestionnairePage />} />
           <Route path="/web-design/booking" element={<BookingPage />} />
           <Route path="/thank-you" element={<ThankYouPage />} />
+          <Route path="/apply" element={<RecruitmentPage />} />
         </Routes>
       </main>
-      {!isWebDesignPage && !isThankYouPage && (
+      {!isWebDesignPage && !isThankYouPage && !isRecruitmentPage && (
         <Newsletter
           locationId={import.meta.env.VITE_GHL_LOCATION_ID}
           apiKey={import.meta.env.VITE_GHL_API_KEY}
           variant="minimal"
         />
       )}
-      {!isWebDesignPage && !isThankYouPage && <Footer />}
+      {!isWebDesignPage && !isThankYouPage && !isRecruitmentPage && <Footer />}
     </div>
   );
 };
