@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -10,6 +11,10 @@ import BlogPost from "./components/BlogPost";
 import Footer from "./components/Footer";
 import Newsletter from "./components/Newsletter";
 import { GoogleTagManager } from "./components/GoogleTagManager";
+import WebDesignPage from "./components/pages/WebDesign/WebDesignPage";
+import QuestionnairePage from "./components/pages/WebDesign/Questionnaire/QuestionnairePage";
+import BookingPage from "./components/pages/WebDesign/Booking/BookingPage";
+import ThankYouPage from "./components/pages/WebDesign/ThankYou/ThankYouPage";
 
 const HomePage = () => (
   <>
@@ -21,26 +26,42 @@ const HomePage = () => (
   </>
 );
 
-const App: React.FC = () => {
+const AppContent = () => {
+  const location = useLocation();
+  const isWebDesignPage = location.pathname.startsWith('/web-design');
+  const isThankYouPage = location.pathname === '/thank-you';
+
   return (
-    <Router>
-      <GoogleTagManager />
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/blog" element={<BlogArchive />} />
-            <Route path="/blog/:slug" element={<BlogPostWrapper />} />
-          </Routes>
-        </main>
+    <div className="min-h-screen flex flex-col">
+      {!isWebDesignPage && !isThankYouPage && <Navbar />}
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/blog" element={<BlogArchive />} />
+          <Route path="/blog/:slug" element={<BlogPostWrapper />} />
+          <Route path="/web-design" element={<WebDesignPage />} />
+          <Route path="/web-design/questionnaire" element={<QuestionnairePage />} />
+          <Route path="/web-design/booking" element={<BookingPage />} />
+          <Route path="/thank-you" element={<ThankYouPage />} />
+        </Routes>
+      </main>
+      {!isWebDesignPage && !isThankYouPage && (
         <Newsletter
           locationId={import.meta.env.VITE_GHL_LOCATION_ID}
           apiKey={import.meta.env.VITE_GHL_API_KEY}
           variant="minimal"
         />
-        <Footer />
-      </div>
+      )}
+      {!isWebDesignPage && !isThankYouPage && <Footer />}
+    </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <GoogleTagManager />
+      <AppContent />
     </Router>
   );
 };
