@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import About from "./components/About/About";
+import About from "./components/About";
 import Services from "./components/Services";
 import CaseStudies from "./components/CaseStudies";
 import Contact from "./components/Contact";

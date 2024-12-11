@@ -27,6 +27,7 @@ interface ContactFormData {
   message?: string;
   source?: string;
   tags?: string[];
+  type?: 'lead' | 'customer' | 'candidate';
 }
 
 interface NoteData {
@@ -42,6 +43,7 @@ export const addContact = async (email: string, name?: string) => {
       locationId: GHL_LOCATION_ID,
       tags: ["Newsletter Subscriber"],
       source: "Website Newsletter",
+      type: "lead",
     };
 
     const response = await ghlClient.post("contacts/", payload);
@@ -54,14 +56,36 @@ export const addContact = async (email: string, name?: string) => {
 
 export const addContactForm = async (data: ContactFormData) => {
   try {
+    // Set default type to 'candidate' if not provided
+    const type = data.type || 'candidate';
+    
+    // Create the contact
     const payload = {
       ...data,
       locationId: GHL_LOCATION_ID,
-      tags: data.tags || [],
+      tags: [...(data.tags || []), type],
       source: data.source || "Website Contact Form",
+      type,
     };
 
     const response = await ghlClient.post("contacts/", payload);
+    const contactId = response.data?.contact?.id;
+
+    if (contactId && data.message) {
+      // Add application details as a note
+      await addNote({
+        contactId,
+        body: `
+Application Details:
+------------------
+${data.message}
+
+Status: New Application
+Submitted: ${new Date().toLocaleString()}
+        `.trim()
+      });
+    }
+
     return response.data;
   } catch (error: any) {
     console.error("Error adding contact form:", error.response?.data || error.message);
