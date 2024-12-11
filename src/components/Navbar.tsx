@@ -22,6 +22,7 @@ export default function Navbar() {
   const menuItems = [
     { label: "About", path: "/#about" },
     { label: "Services", path: "/#services" },
+    // { label: "Web Design", path: "/web-design" },
     { label: "Case Studies", path: "/#case-studies" },
     { label: "Blog", path: "/blog" },
     { label: "Contact", path: "/#contact" },
@@ -30,7 +31,7 @@ export default function Navbar() {
   const handleClick = (path: string) => {
     setIsOpen(false);
 
-    if (path === "/blog") {
+    if (path === "/web-design" || path === "/blog") {
       window.scrollTo(0, 0);
       navigate(path);
       return;

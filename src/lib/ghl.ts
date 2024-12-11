@@ -26,6 +26,12 @@ interface ContactFormData {
   phone: string;
   message?: string;
   source?: string;
+  tags?: string[];
+}
+
+interface NoteData {
+  contactId: string;
+  body: string;
 }
 
 export const addContact = async (email: string, name?: string) => {
@@ -41,6 +47,7 @@ export const addContact = async (email: string, name?: string) => {
     const response = await ghlClient.post("contacts/", payload);
     return response.data;
   } catch (error: any) {
+    console.error("Error adding contact:", error.response?.data || error.message);
     throw error;
   }
 };
@@ -50,19 +57,38 @@ export const addContactForm = async (data: ContactFormData) => {
     const payload = {
       ...data,
       locationId: GHL_LOCATION_ID,
-      tags: ["Website Contact"],
+      tags: data.tags || [],
       source: data.source || "Website Contact Form",
-      customField: [
-        {
-          id: "message",
-          value: data.message,
-        },
-      ],
     };
 
     const response = await ghlClient.post("contacts/", payload);
     return response.data;
   } catch (error: any) {
+    console.error("Error adding contact form:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const addNote = async (data: NoteData) => {
+  try {
+    const payload = {
+      body: data.body,
+    };
+
+    const response = await ghlClient.post(`contacts/${data.contactId}/notes`, payload);
+    return response.data;
+  } catch (error: any) {
+    console.error("Error adding note:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const findContactByEmail = async (email: string) => {
+  try {
+    const response = await ghlClient.get(`contacts/lookup?email=${email}`);
+    return response.data;
+  } catch (error: any) {
+    console.error("Error finding contact:", error.response?.data || error.message);
     throw error;
   }
 };
