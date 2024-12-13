@@ -1,13 +1,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Instagram,
-  Facebook,
-  Linkedin,
-} from "lucide-react";
+import { Mail, Phone, MapPin, Instagram, Facebook, Linkedin } from "lucide-react";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { addContactForm } from "../lib/ghl";
@@ -195,14 +188,24 @@ export default function Contact() {
               <Mail className="w-6 h-6 mt-1" />
               <div>
                 <h3 className="text-lg font-medium mb-1">Email</h3>
-                <p className="text-gray-300">info@enapragma.co</p>
+                <a 
+                  href="mailto:info@enapragma.co"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  info@enapragma.co
+                </a>
               </div>
             </div>
             <div className="flex items-start space-x-4">
               <Phone className="w-6 h-6 mt-1" />
               <div>
                 <h3 className="text-lg font-medium mb-1">Phone</h3>
-                <p className="text-gray-300">(251) 725-9969</p>
+                <a 
+                  href="tel:+12517259969"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  (251) 725-9969
+                </a>
               </div>
             </div>
             <div className="flex items-start space-x-4">

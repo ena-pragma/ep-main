@@ -1,7 +1,7 @@
-import CompanyInfo from "./Footer/CompanyInfo";
-import QuickLinks from "./Footer/QuickLinks";
-import ServicesList from "./Footer/ServicesList";
-import ContactInfo from "./Footer/ContactInfo";
+import CompanyInfo from "./CompanyInfo";
+import QuickLinks from "./QuickLinks";
+import ServicesList from "./ServicesList";
+import ContactInfo from "./ContactInfo";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
